@@ -1,4 +1,4 @@
-#Guide 
+# Guide 
 '''
 1. Create a new environment: venv or conda
 2. activate the environment: pip install -r requirements.txt
