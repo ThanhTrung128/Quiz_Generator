@@ -1,3 +1,4 @@
+```
 1. Create a new environment: venv or conda
 2. activate the environment: pip install -r requirements.txt
 3. Access to https://platform.openai.com/docs/guides/chat to get API_KEY and fill in the API_KEY to app.py
@@ -21,4 +22,4 @@ num_questions: number of questions which want to generate in a quiz
 question_type: thr type of question: true_false, multiple_choice, short_answer
 language_type: the language what you want to generate
 difficulty_type: the level of question
-
+```
