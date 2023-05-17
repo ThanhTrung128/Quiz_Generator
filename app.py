@@ -3,13 +3,7 @@ import requests
 from data_processing.text_process import parse_multiple_choices_quiz,parse_true_false_quiz,parse_short_answer
 
 app = Flask(__name__)
-API_KEY = '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'
-
-# QUESTION_TYPE_PROMPTS = {
-#     'multiple_choice': 'Generate {num} multiple choice questions based on the following {in_type}:\n{data}\n',
-#     'true_false': 'Generate {num} true/false questions, each with correct answer based on the following {in_type}:\n{data}\n',
-#     'short_answer': 'Generate {num} short answer questions and answer  based on the following {in_type}:\n{data}\n',
-# }
+API_KEY = ''
 
 QUESTION_TYPE_PROMPTS = {
     'multiple_choice': 'Generate {num} multiple-choice questions in {language}, each with four options, correct answer and also follow the {in_type}:\n{data}\n',
@@ -36,7 +30,6 @@ def generate_quiz_questions(prompt,question_type,num_questions):
     if response.ok:
         output = response.json()['choices'][0]['text'].strip()
         result = None
-        print(output)
         # response_json = response.json()
         if question_type == 'multiple_choice':
             result = parse_multiple_choices_quiz(output)

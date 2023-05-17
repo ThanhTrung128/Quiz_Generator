@@ -3,7 +3,7 @@ import re
 def parse_multiple_choices_quiz(text_lines):
     content_processing = text_lines.strip().split('\n')
     question_regex = re.compile(r'^\s*(?:Q(?:uestion)?|[\d.]+[)\.]?\s*):?\s*(.*)$')
-    answer_regex = re.compile(r'^(Answer:|Answer\s:|A:|Đáp án:|Correct Answer:)\s*(.*)$')
+    answer_regex = re.compile(r'^(Answer:|Answer\s:|A:|Đáp án:|Correct Answer:|Câu trả lời đúng:)\s*(.*)$')
     
     questions = []
     answers = []
@@ -49,7 +49,6 @@ def parse_true_false_quiz_type_1(text_lines):
     flag = 0
     pattern_check = r'((?:(q|Q|Question|question)(\d+)[.|:])|(\d+)[.|:])\s(.*?)(?:\?\s*|\.\s+) (.+)(?:(?:\/\w+:\s*)?(\w+))?'
     if re.match(pattern_check,text_lines[1]):
-        print(flag)
         flag = 1
         
     if flag == 0: 
@@ -77,13 +76,9 @@ def parse_true_false_quiz_type_1(text_lines):
             if num == len(text_lines) - 1 and question_id != answer_id:
                 answer_text = None
                 answers.append(answer_text)
-        print(questions)
-        print(answers)
     else:
         pattern = r'(?i)(?:((q|Q|Question|question)(\d+)[.|:])|(\d+\.?))\s*(.*?)(?:[?\.]\s*|\s*(?:True|False|Đúng|Sai)\s*:?\s*)(.*)'
-
         matches = re.findall(pattern, text_content)
-
         for match in matches:
             question = match[4].strip()
             questions.append(question)
@@ -91,6 +86,7 @@ def parse_true_false_quiz_type_1(text_lines):
             answers.append(answer)
     return [{'question': question, 'answer': answer} for question, answer in zip(questions, answers)]
 def parse_true_false_quiz(text_lines):
+    result = None
     if len(text_lines.strip().split('\n\n')) == 2:
         result = parse_short_answer(text_lines)
     else:
@@ -100,7 +96,6 @@ def parse_true_false_quiz(text_lines):
 def parse_short_answer(text_lines):
     try:
         text_lines = text_lines.strip().split('\n\n')
-        print(text_lines)
         questions = text_lines[0].split('\n')
         answers = text_lines[1].split('\n') if len(text_lines) > 1 else [None] * len(questions)
         return [{'question': q, 'answer': a} for q, a in zip(questions, answers)]
